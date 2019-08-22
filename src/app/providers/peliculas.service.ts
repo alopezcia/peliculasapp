@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
 import { apikeyV3, apikeyV4 } from './config';
 
 
@@ -7,12 +9,13 @@ import { apikeyV3, apikeyV4 } from './config';
   providedIn: 'root'
 })
 export class PeliculasService {
-  private urlMoviedbV3: string = 'https://api.themoviedb.org/3/movie/550';
+  private urlMoviedbV3: string = 'https://api.themoviedb.org/3';
 
-  constructor(private http: HttpClientModule,
-              private jsonp: HttpClientJsonpModule ) {}
+  constructor(private http: HttpClient ) {}
 
   getPopulares() {
-    // let url = `${ this.urlMoviedb}/discover/moview `; 
-  }            
+     const url = `${ this.urlMoviedbV3}/discover/moview?sort_by=popularity.desc&api_key=${apikeyV3}&language=es`;
+     return this.http.jsonp(url, 'callback');
+  }
+
 }
